@@ -13,9 +13,10 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 
 @Module({
   imports: [
+    ProductsModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      // autoSchemaFile: true, // Automatically generates the schema
+      autoSchemaFile: true,
     }),
   ],
   providers: [ProductsModule],
