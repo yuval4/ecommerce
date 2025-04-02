@@ -1,8 +1,17 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { OrdersService as OrdersService } from './orders.service';
-import { Order } from './entities/order.entity';
+import {
+  Args,
+  Int,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+  ResolveReference,
+} from '@nestjs/graphql';
 import { CreateOrderInput } from './dto/create-order.input';
 import { UpdateOrderInput } from './dto/update-order.input';
+import { Order } from './entities/order.entity';
+import { OrdersService } from './orders.service';
 
 @Resolver(() => Order)
 export class OrdersResolver {
@@ -32,4 +41,9 @@ export class OrdersResolver {
   removeOrder(@Args('id', { type: () => Int }) id: number) {
     return this.ordersService.remove(id);
   }
+
+  // @ResolveField(() => [Order])
+  // public products(@Parent() user: Order): Order[] {
+  //   return [{ id: 66 }];
+  // }
 }

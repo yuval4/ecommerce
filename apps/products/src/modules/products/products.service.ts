@@ -10,12 +10,12 @@ export class ProductsService {
   }
 
   findAll() {
-    return [{ exampleField: 11 }, { exampleField: 999 }];
-    // return [{ exampleField: add(1, 9) }, { exampleField: 999 }];
+    return [{ id: 11 }, { id: 999 }];
+    // return [{ id: add(1, 9) }, { id: 999 }];
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} product`;
+    return { id: 11 };
   }
 
   update(id: number, updateProductInput: UpdateProductInput) {

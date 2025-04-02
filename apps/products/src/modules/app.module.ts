@@ -1,22 +1,17 @@
-// import { Module } from '@nestjs/common';
-import { ProductsModule } from './products/products.module';
-
-// @Module({
-//   imports: [],
-//   providers: [ProductsModule],
-// })
-// export class AppModule {}
-
+import {
+  ApolloFederationDriver,
+  ApolloFederationDriverConfig,
+} from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [
     ProductsModule,
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      autoSchemaFile: true,
+    GraphQLModule.forRoot<ApolloFederationDriverConfig>({
+      driver: ApolloFederationDriver,
+      autoSchemaFile: { federation: 2 },
     }),
   ],
   providers: [ProductsModule],

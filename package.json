@@ -2,6 +2,9 @@
   "name": "ecommerce",
   "private": true,
   "scripts": {
+    "dev:orders": "cd apps/orders && npm run dev",
+    "dev:products": "cd apps/products && npm run dev",
+    "dev:gateway": "cd apps/gateway && npm run dev",
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
@@ -9,6 +12,8 @@
     "check-types": "turbo run check-types"
   },
   "dependencies": {
+    "@apollo/gateway": "^2.10.0",
+    "@apollo/subgraph": "^2.10.0",
     "@nestjs/apollo": "^10.2.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",

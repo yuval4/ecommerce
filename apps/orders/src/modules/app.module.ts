@@ -1,4 +1,7 @@
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import {
+  ApolloFederationDriver,
+  ApolloFederationDriverConfig,
+} from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { OrdersModule } from './orders/orders.module';
@@ -6,9 +9,10 @@ import { OrdersModule } from './orders/orders.module';
 @Module({
   imports: [
     OrdersModule,
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      autoSchemaFile: true,
+    GraphQLModule.forRoot<ApolloFederationDriverConfig>({
+      driver: ApolloFederationDriver,
+      autoSchemaFile: { federation: 2 },
+      cors: true,
     }),
   ],
   providers: [OrdersModule],
