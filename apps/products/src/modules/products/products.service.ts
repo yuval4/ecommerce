@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateProductInput } from './dto/create-product.input';
 import { UpdateProductInput } from './dto/update-product.input';
+// import { add } from '@repo/types';
 
 @Injectable()
 export class ProductsService {
@@ -9,7 +10,8 @@ export class ProductsService {
   }
 
   findAll() {
-    return `This action returns all products`;
+    return [{ exampleField: 11 }, { exampleField: 999 }];
+    // return [{ exampleField: add(1, 9) }, { exampleField: 999 }];
   }
 
   findOne(id: number) {
