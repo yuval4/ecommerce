@@ -47,8 +47,8 @@ export class ProductsResolver {
     return this.productsService.remove(id);
   }
 
-  // @ResolveReference()
-  // resolveReference(reference: { __typename: string; id: number }): Product {
-  //   return this.productsService.findOne(reference.id);
-  // }
+  @ResolveReference()
+  resolveReference(reference: { __typename: string; id: number }): Product {
+    return this.productsService.findOne(reference.id);
+  }
 }

@@ -12,6 +12,7 @@ import { CreateOrderInput } from './dto/create-order.input';
 import { UpdateOrderInput } from './dto/update-order.input';
 import { Order } from './entities/order.entity';
 import { OrdersService } from './orders.service';
+import { Product } from './entities/product.entity';
 
 @Resolver(() => Order)
 export class OrdersResolver {
@@ -42,8 +43,8 @@ export class OrdersResolver {
     return this.ordersService.remove(id);
   }
 
-  // @ResolveField(() => [Order])
-  // public products(@Parent() user: Order): Order[] {
-  //   return [{ id: 66 }];
-  // }
+  @ResolveField(() => [Product])
+  products(@Parent() order: Order): Product[] {
+    return [{ id: 66 }];
+  }
 }
