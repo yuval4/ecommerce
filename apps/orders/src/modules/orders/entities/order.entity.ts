@@ -10,5 +10,7 @@ export class Order {
   id: number;
 
   @Field(() => [Product])
+  // @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Owner' }] })
+  // owners: Owner[];
   products?: Product[];
 }
