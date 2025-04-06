@@ -16,6 +16,7 @@
     "@apollo/subgraph": "^2.10.0",
     "@nestjs/apollo": "^10.2.0",
     "@nestjs/common": "^9.0.0",
+    "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^9.0.0",
     "@nestjs/graphql": "^10.2.0",
     "@nestjs/mongoose": "^11.0.3",
