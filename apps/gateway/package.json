@@ -20,7 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@repo/yuval": "*",
+    "@repo/yuval3": "*",
     "@repo/types": "*",
     "@nestjs/apollo": "^10.2.0",
     "@nestjs/common": "^9.0.0",
