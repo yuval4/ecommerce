@@ -8,6 +8,7 @@ import { ProductsModule } from './products/products.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration, { Config } from 'src/config/configuration';
 import { MongooseModule } from '@nestjs/mongoose';
+import { CategoriesModule } from './categories/categories.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { MongooseModule } from '@nestjs/mongoose';
       autoSchemaFile: { federation: 2 },
     }),
     ProductsModule,
+    CategoriesModule,
   ],
   providers: [ProductsModule],
 })

@@ -7,7 +7,7 @@ export class CreateProductInput {
   name: string;
 
   @Field(() => String, { nullable: true, defaultValue: new Date() })
-  uploadDate: string;
+  uploadedDate: string;
 
   @Field(() => String, { nullable: true })
   description: string;

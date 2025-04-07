@@ -7,13 +7,14 @@ import {
 } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
+import { Category } from 'src/modules/categories/entities/categories.entity';
 
 export type ProductDocument = HydratedDocument<Product>;
 
 // TODO move to common
 export enum ProductStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
+  ACTIVE = 'ACTIVE',
+  DISABLED = 'DISABLED',
 }
 
 registerEnumType(ProductStatus, {
@@ -23,9 +24,9 @@ registerEnumType(ProductStatus, {
 
 @Schema({})
 @ObjectType()
-@Directive('@key(fields: "_id")')
+@Directive('@key(fields: "id")')
 export class Product {
-  @Field(() => ID)
+  @Field(() => ID, { name: 'id' })
   _id: string;
 
   @Field()
@@ -34,7 +35,7 @@ export class Product {
 
   @Field()
   @Prop({ required: true })
-  uploadDate: string;
+  uploadedDate: string;
 
   @Field()
   @Prop({ required: false })
@@ -52,13 +53,14 @@ export class Product {
   @Prop({ required: false })
   imageUrl: string;
 
-  // @Field()
-  // @Prop({ required: false })
-  // categories: string;
-
   @Field(() => ProductStatus)
   @Prop({ type: String, enum: ProductStatus, default: ProductStatus.ACTIVE })
   status: ProductStatus;
+
+  // TODO edit
+  @Field(() => Category, { nullable: true })
+  @Prop({ required: false })
+  categories: Category;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);

@@ -12,8 +12,8 @@ export type ProductDocument = HydratedDocument<Product>;
 
 // TODO move to common
 export enum ProductStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
+  ACTIVE = 'ACTIVE',
+  DISABLED = 'DISABLED',
 }
 
 registerEnumType(ProductStatus, {
@@ -23,9 +23,9 @@ registerEnumType(ProductStatus, {
 
 @Schema()
 @ObjectType()
-@Directive('@key(fields: "_id")')
+@Directive('@key(fields: "id")')
 export class Product {
-  @Field(() => ID)
+  @Field(() => ID, { name: 'id' })
   _id: string;
 }
 
