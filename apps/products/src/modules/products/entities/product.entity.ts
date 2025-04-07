@@ -2,6 +2,7 @@ import {
   Directive,
   Field,
   ID,
+  Int,
   ObjectType,
   registerEnumType,
 } from '@nestjs/graphql';
@@ -41,16 +42,20 @@ export class Product {
   @Prop({ required: false })
   description: string;
 
-  @Field()
-  @Prop({ required: false })
-  price: string;
+  @Field(() => Int)
+  @Prop({ required: true, type: 'Number' })
+  price: number;
 
   @Field()
   @Prop({ required: true })
   sellerName: string;
 
   @Field()
-  @Prop({ required: false })
+  @Prop({
+    required: false,
+    default:
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvAnXgqD8WH2Z4NNEkQIwmuujboUOtoHeFKg&s',
+  })
   imageUrl: string;
 
   @Field(() => ProductStatus)
@@ -58,9 +63,9 @@ export class Product {
   status: ProductStatus;
 
   // TODO edit
-  @Field(() => Category, { nullable: true })
+  @Field(() => [Category], { nullable: true })
   @Prop({ required: false })
-  categories: Category;
+  categories: Category[];
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);

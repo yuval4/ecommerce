@@ -1,4 +1,4 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, InputType, Int } from '@nestjs/graphql';
 import { ProductStatus } from '../entities/product.entity';
 
 @InputType()
@@ -12,17 +12,18 @@ export class CreateProductInput {
   @Field(() => String, { nullable: true })
   description: string;
 
-  @Field(() => String, { nullable: true })
-  price: string;
+  @Field(() => Int, { nullable: true })
+  price: number;
 
   @Field(() => String, { nullable: false })
   sellerName: string;
 
-  @Field(() => String, { nullable: true })
+  @Field(() => String, {
+    nullable: true,
+    defaultValue:
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvAnXgqD8WH2Z4NNEkQIwmuujboUOtoHeFKg&s',
+  })
   imageUrl: string;
-
-  // @Field(() => String, { nullable: true })
-  // categories: string;
 
   @Field(() => ProductStatus, { nullable: true })
   status: ProductStatus;

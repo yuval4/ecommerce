@@ -1,18 +1,17 @@
 import {
-  Resolver,
-  Query,
-  Mutation,
   Args,
-  Int,
-  ResolveReference,
-  ResolveField,
+  Mutation,
   Parent,
+  Query,
+  ResolveField,
+  Resolver,
+  ResolveReference,
 } from '@nestjs/graphql';
-import { ProductsService } from './products.service';
-import { Product } from './entities/product.entity';
+import { Category } from '../categories/entities/categories.entity';
 import { CreateProductInput } from './dto/create-product.input';
 import { UpdateProductInput } from './dto/update-product.input';
-import { Category } from '../categories/entities/categories.entity';
+import { Product } from './entities/product.entity';
+import { ProductsService } from './products.service';
 
 // TODO soft delete?
 
@@ -32,7 +31,7 @@ export class ProductsResolver {
     return this.productsService.findAll();
   }
 
-  @Query(() => Product, { name: 'product' })
+  @Query(() => Product, { name: 'getProductById' })
   findOne(
     @Args('id', { type: () => String }) id: Product['_id'],
   ): Promise<Product> {
@@ -65,8 +64,8 @@ export class ProductsResolver {
   }
 
   @ResolveField()
-  async categories(@Parent() product): Promise<Category> {
+  async categories(@Parent() product): Promise<Category[]> {
     const id = 'author';
-    return { name: 'dsf', _id: id } as Category;
+    return [{ name: 'dsf', _id: '67f3d4e67bebbb28cd982fa6' }];
   }
 }
