@@ -45,6 +45,6 @@ export class OrdersResolver {
 
   @ResolveField(() => [Product])
   products(@Parent() order: Order): Product[] {
-    return [{ id: 66 }];
+    return [];
   }
 }
