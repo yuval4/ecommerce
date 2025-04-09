@@ -6,9 +6,9 @@ export type CategoryDocument = HydratedDocument<Category>;
 
 @Schema({})
 @ObjectType()
-@Directive('@key(fields: "id")')
+@Directive('@key(fields: "categoryId")')
 export class Category {
-  @Field(() => ID, { name: 'id' })
+  @Field(() => ID, { name: 'categoryId' })
   _id: string;
 
   @Field()

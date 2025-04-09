@@ -6,13 +6,12 @@ import {
   Query,
   ResolveField,
   Resolver,
-  ResolveReference,
 } from '@nestjs/graphql';
 import { CreateOrderInput } from './dto/create-order.input';
 import { UpdateOrderInput } from './dto/update-order.input';
 import { Order } from './entities/order.entity';
-import { OrdersService } from './orders.service';
 import { Product } from './entities/product.entity';
+import { OrdersService } from './orders.service';
 
 @Resolver(() => Order)
 export class OrdersResolver {
