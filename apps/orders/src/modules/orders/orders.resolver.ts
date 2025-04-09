@@ -1,6 +1,5 @@
 import {
   Args,
-  Int,
   Mutation,
   Parent,
   Query,
@@ -18,32 +17,35 @@ export class OrdersResolver {
   constructor(private readonly ordersService: OrdersService) {}
 
   @Mutation(() => Order)
-  createOrder(@Args('createOrderInput') createOrderInput: CreateOrderInput) {
+  createOrder(
+    @Args('createOrderInput') createOrderInput: CreateOrderInput,
+  ): Promise<Order> {
     return this.ordersService.create(createOrderInput);
   }
 
   @Query(() => [Order], { name: 'orders' })
-  findAll() {
+  findAll(): Promise<Order[]> {
     return this.ordersService.findAll();
   }
 
   @Query(() => Order, { name: 'order' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(
+    @Args('id', { type: () => String }) id: Order['_id'],
+  ): Promise<Order> {
     return this.ordersService.findOne(id);
   }
 
   @Mutation(() => Order)
-  updateOrder(@Args('updateOrderInput') updateOrderInput: UpdateOrderInput) {
-    return this.ordersService.update(updateOrderInput.id, updateOrderInput);
+  updateOrder(
+    @Args('updateOrderInput') updateOrderInput: UpdateOrderInput,
+  ): Promise<Order> {
+    return this.ordersService.update(updateOrderInput._id, updateOrderInput);
   }
 
   @Mutation(() => Order)
-  removeOrder(@Args('id', { type: () => Int }) id: number) {
+  removeOrder(
+    @Args('id', { type: () => String }) id: Order['_id'],
+  ): Promise<Order> {
     return this.ordersService.remove(id);
-  }
-
-  @ResolveField(() => [Product])
-  products(@Parent() order: Order): Product[] {
-    return [];
   }
 }

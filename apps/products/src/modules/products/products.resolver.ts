@@ -64,8 +64,7 @@ export class ProductsResolver {
   }
 
   @ResolveField()
-  async categories(@Parent() product): Promise<Category[]> {
-    const id = 'author';
-    return [{ name: 'dsf', _id: '67f3d4e67bebbb28cd982fa6' }];
+  async categories(@Parent() product: Product): Promise<Category[]> {
+    return this.productsService.findCategoriesByProductId(product._id);
   }
 }

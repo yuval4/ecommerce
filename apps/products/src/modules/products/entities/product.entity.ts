@@ -23,7 +23,7 @@ registerEnumType(ProductStatus, {
   description: 'The status of the product',
 });
 
-@Schema({})
+@Schema()
 @ObjectType()
 @Directive('@key(fields: "id")')
 export class Product {
@@ -34,9 +34,9 @@ export class Product {
   @Prop({ required: true })
   name: string;
 
-  @Field()
-  @Prop({ required: true })
-  uploadedDate: string;
+  @Field(() => Date)
+  @Prop({ required: true, type: Date })
+  uploadedDate: Date;
 
   @Field()
   @Prop({ required: false })

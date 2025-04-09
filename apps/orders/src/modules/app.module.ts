@@ -6,8 +6,9 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { OrdersModule } from './orders/orders.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ConfigModule } from '@nestjs/config';
-import configuration from 'src/config/configuration';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import configuration, { Config } from 'src/config/configuration';
+import { ProductOrdersModule } from './products-order/produts-orders.module';
 
 @Module({
   imports: [
@@ -15,13 +16,21 @@ import configuration from 'src/config/configuration';
       isGlobal: true,
       load: [configuration],
     }),
-    MongooseModule.forRoot('mongodb://localhost/nest'),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get<Config['connection']>('connection').uri,
+        dbName: configService.get<Config['connection']>('connection').dbName,
+      }),
+      inject: [ConfigService],
+    }),
     GraphQLModule.forRoot<ApolloFederationDriverConfig>({
       driver: ApolloFederationDriver,
       autoSchemaFile: { federation: 2 },
       cors: true,
     }),
     OrdersModule,
+    ProductOrdersModule,
   ],
   providers: [OrdersModule],
 })

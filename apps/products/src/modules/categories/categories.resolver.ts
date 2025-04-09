@@ -1,15 +1,14 @@
 import {
-  Resolver,
-  Query,
-  Mutation,
   Args,
-  Int,
+  Mutation,
+  Query,
+  Resolver,
   ResolveReference,
 } from '@nestjs/graphql';
-import { Category } from './entities/categories.entity';
+import { CategoriesService } from './categories.service';
 import { CreateCategoryInput } from './dto/create-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
-import { CategoriesService } from './categories.service';
+import { Category } from './entities/categories.entity';
 
 // TODO soft delete?
 
