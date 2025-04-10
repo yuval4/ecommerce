@@ -28,13 +28,14 @@ import { DataloaderService } from './dataloader/dataloader.service';
       }),
       inject: [ConfigService],
     }),
-    GraphQLModule.forRootAsync<ApolloDriverConfig>({
-      driver: ApolloDriver,
+    GraphQLModule.forRootAsync<ApolloFederationDriverConfig>({
+      driver: ApolloFederationDriver,
       imports: [DataloaderModule],
       inject: [DataloaderService],
       useFactory: (dataloaderService: DataloaderService) => {
         return {
-          autoSchemaFile: true,
+          autoSchemaFile: { federation: 2 },
+          cors: true,
           context: () => ({
             loaders: dataloaderService.getLoaders(),
           }),
