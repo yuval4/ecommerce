@@ -4,6 +4,8 @@ import { Model } from 'mongoose';
 import { CreateProductInput } from './dto/create-product.input';
 import { UpdateProductInput } from './dto/update-product.input';
 import { Product } from './entities/product.entity';
+import { Category } from '../categories/entities/categories.entity';
+import { ProductDataLoader } from './products.dataloader';
 
 // TODO handle empty response from DB
 
@@ -11,6 +13,7 @@ import { Product } from './entities/product.entity';
 export class ProductsService {
   constructor(
     @InjectModel(Product.name) private productModel: Model<Product>,
+    private dataLoader: ProductDataLoader,
   ) {}
 
   async create(createProductInput: CreateProductInput): Promise<Product> {
@@ -38,5 +41,9 @@ export class ProductsService {
 
   async remove(id: Product['_id']): Promise<Product> {
     return this.productModel.findByIdAndDelete(id).exec();
+  }
+
+  async findCategoriesByProductId(id: Product['_id']): Promise<Category[]> {
+    return this.dataLoader.createLoader().load(id);
   }
 }
