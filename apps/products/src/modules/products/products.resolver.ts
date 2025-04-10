@@ -1,5 +1,6 @@
 import {
   Args,
+  Context,
   Mutation,
   Parent,
   Query,
@@ -12,6 +13,8 @@ import { CreateProductInput } from './dto/create-product.input';
 import { UpdateProductInput } from './dto/update-product.input';
 import { Product } from './entities/product.entity';
 import { ProductsService } from './products.service';
+import { IDataloaders } from '../dataloader/dataloader.interface';
+import { DataloaderService } from '../dataloader/dataloader.service';
 
 // TODO soft delete?
 
@@ -63,8 +66,14 @@ export class ProductsResolver {
     return this.productsService.findOne(reference.id);
   }
 
-  @ResolveField()
-  async categories(@Parent() product: Product): Promise<Category[]> {
-    return this.productsService.findCategoriesByProductId(product._id);
+  @ResolveField(() => [Category])
+  categories(
+    @Parent() product: Product,
+    @Context() { loaders }: { loaders: IDataloaders },
+  ) {
+    return loaders.categoriesLoader.load({
+      _id: product._id,
+      categories: product.categories,
+    });
   }
 }

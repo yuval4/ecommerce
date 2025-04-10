@@ -1,4 +1,6 @@
 import {
+  ApolloDriver,
+  ApolloDriverConfig,
   ApolloFederationDriver,
   ApolloFederationDriverConfig,
 } from '@nestjs/apollo';
@@ -9,6 +11,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration, { Config } from 'src/config/configuration';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CategoriesModule } from './categories/categories.module';
+import { DataloaderModule } from './dataloader/dataloader.module';
+import { DataloaderService } from './dataloader/dataloader.service';
 
 @Module({
   imports: [
@@ -24,13 +28,22 @@ import { CategoriesModule } from './categories/categories.module';
       }),
       inject: [ConfigService],
     }),
-    GraphQLModule.forRoot<ApolloFederationDriverConfig>({
-      driver: ApolloFederationDriver,
-      autoSchemaFile: { federation: 2 },
+    GraphQLModule.forRootAsync<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      imports: [DataloaderModule],
+      inject: [DataloaderService],
+      useFactory: (dataloaderService: DataloaderService) => {
+        return {
+          autoSchemaFile: true,
+          context: () => ({
+            loaders: dataloaderService.getLoaders(),
+          }),
+        };
+      },
     }),
     ProductsModule,
     CategoriesModule,
   ],
-  providers: [ProductsModule],
+  providers: [ProductsModule, DataloaderModule],
 })
 export class AppModule {}

@@ -10,6 +10,7 @@ import { Category, CategorySchema } from './entities/categories.entity';
       { name: Category.name, schema: CategorySchema },
     ]),
   ],
+  exports: [CategoriesService],
   providers: [CategoriesResolver, CategoriesService],
 })
 export class CategoriesModule {}

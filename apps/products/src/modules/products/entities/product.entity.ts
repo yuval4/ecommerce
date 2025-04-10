@@ -7,7 +7,7 @@ import {
   registerEnumType,
 } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
 import { Category } from 'src/modules/categories/entities/categories.entity';
 
 export type ProductDocument = HydratedDocument<Product>;
@@ -63,9 +63,14 @@ export class Product {
   status: ProductStatus;
 
   // TODO edit
-  @Field(() => [Category], { nullable: true })
-  @Prop({ required: false })
-  categories: Category[];
+
+  // @Field(() => [Category], { nullable: true })
+  // @Prop({ required: false })
+  @Prop({
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: Category.name }],
+    default: [],
+  })
+  categories: Category['_id'][];
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);
