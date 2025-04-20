@@ -5,6 +5,7 @@ import {
   Query,
   ResolveField,
   Resolver,
+  ResolveReference,
 } from '@nestjs/graphql';
 import { Product } from 'src/modules/orders/entities/product.entity';
 import { CreateProductsOrderInput } from './dto/create-products-order.input';
@@ -58,6 +59,7 @@ export class ProductsOrdersResolver {
 
   @ResolveField(() => Product)
   product(@Parent() productsOrder: ProductsOrder) {
-    return { __typename: 'Product', id: productsOrder.productId };
+    console.log(productsOrder.productId.toString());
+    return { __typename: 'Product', id: productsOrder.productId.toString() };
   }
 }

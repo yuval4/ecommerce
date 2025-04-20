@@ -68,13 +68,9 @@ export class OrdersResolver {
     // ];
   }
 
-  // @ResolveField(() => ProductsOrder)
-  // productOrders(@Parent() order: Order): ProductsOrder {
-  //   return {
-  //     amount: 1,
-  //     orderId: order._id,
-  //     productId: '123',
-  //     _id: '123',
-  //   };
+  // @ResolveField(() => Product)
+  // product(@Parent() order: Order) {
+  //   console.log('Resolving product for order:', order._id);
+  //   return { __typename: 'Product', id: '67f3c6934fca0fef7fceadaa' };
   // }
 }

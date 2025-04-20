@@ -64,9 +64,7 @@ export class ProductsOrdersService {
       // .populate('productId')
       .exec();
 
-    return populatedProductsOrders.map((productOrder) =>
-      productOrder.toObject(),
-    );
+    return populatedProductsOrders;
   }
 
   async findByOrderId(orderId: string): Promise<ProductsOrder[]> {

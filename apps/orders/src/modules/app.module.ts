@@ -32,6 +32,6 @@ import { ProductOrdersModule } from './products-order/produts-orders.module';
     OrdersModule,
     ProductOrdersModule,
   ],
-  providers: [OrdersModule],
+  providers: [OrdersModule, ProductOrdersModule],
 })
 export class AppModule {}

@@ -61,8 +61,9 @@ export class ProductsResolver {
   @ResolveReference()
   resolveReference(reference: {
     __typename: string;
-    id: Product['_id'];
+    id: string;
   }): Promise<Product> {
+    console.log(reference);
     return this.productsService.findOne(reference.id);
   }
 

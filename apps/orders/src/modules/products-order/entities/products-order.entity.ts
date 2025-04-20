@@ -17,13 +17,12 @@ export class ProductsOrder {
   @Directive('@external')
   _id: string;
 
-  @Prop({ type: Types.ObjectId, ref: 'Product', required: true })
-  @Field(() => Product)
-  productId: Product['_id'];
-
   @Prop({ type: Types.ObjectId, ref: 'Order', required: true })
-  // @Prop({ type: { type: Types.ObjectId, ref: 'Order' } })
   orderId: Order['_id'];
+
+  @Prop({ type: Types.ObjectId, ref: 'Product', required: true })
+  @Field(() => ID)
+  productId: Product['_id'];
 
   @Prop({ required: true })
   @Field(() => Int)
