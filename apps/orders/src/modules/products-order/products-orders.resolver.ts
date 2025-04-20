@@ -25,7 +25,9 @@ export class ProductsOrdersResolver {
   }
 
   @Query(() => [ProductsOrder], { name: 'productsOrders' })
-  findAll(): Promise<ProductsOrder[]> {
+  async findAll(): Promise<ProductsOrder[]> {
+    const a = await this.productsOrdersService.findAll();
+    console.log(a);
     return this.productsOrdersService.findAll();
   }
 
@@ -54,8 +56,8 @@ export class ProductsOrdersResolver {
     return this.productsOrdersService.remove(id);
   }
 
-  // @ResolveField(() => Product)
-  // product(@Parent() productsOrder: ProductsOrder) {
-  //   return { __typename: 'Product', id: productsOrder.productId };
-  // }
+  @ResolveField(() => Product)
+  product(@Parent() productsOrder: ProductsOrder) {
+    return { __typename: 'Product', id: productsOrder.productId };
+  }
 }

@@ -25,10 +25,13 @@ export class OrdersService {
         createOrderInput.productOrders,
       );
       const createdOrderTyped = createdOrder.toObject() as Order;
-      const a: Order = { ...createdOrderTyped, productsOrder: products };
+      // const a: Order = { ...createdOrderTyped, productsOrder: products };
 
       // const a: Order = { ...createdOrder, productsOrder: products };
-      return a;
+      // return a;
+
+      const b = await this.findOne(createdOrder._id);
+      return b;
     } catch (error) {
       await this.orderModel.findByIdAndDelete(createdOrder._id).exec();
       throw error;

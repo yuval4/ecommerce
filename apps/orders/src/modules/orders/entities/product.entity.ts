@@ -5,6 +5,10 @@ import {
   ObjectType,
   registerEnumType,
 } from '@nestjs/graphql';
+import { SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument } from 'mongoose';
+
+export type ProductDocument = HydratedDocument<Product>;
 
 // TODO move to common
 export enum ProductStatus {
@@ -23,3 +27,5 @@ export class Product {
   @Field(() => ID, { name: 'id' })
   _id: string;
 }
+
+export const ProductSchema = SchemaFactory.createForClass(Product);

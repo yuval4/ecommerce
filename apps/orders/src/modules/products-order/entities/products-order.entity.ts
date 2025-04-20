@@ -2,6 +2,7 @@ import { Directive, Field, ID, Int, ObjectType } from '@nestjs/graphql';
 import { HydratedDocument, Types } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Product } from 'src/modules/orders/entities/product.entity';
+import { Order } from 'src/modules/orders/entities/order.entity';
 
 // TODO clean up
 
@@ -16,20 +17,17 @@ export class ProductsOrder {
   @Directive('@external')
   _id: string;
 
-  productId: string;
+  @Prop({ type: Types.ObjectId, ref: 'Product', required: true })
+  @Field(() => Product)
+  productId: Product['_id'];
 
-  orderId: string;
+  @Prop({ type: Types.ObjectId, ref: 'Order', required: true })
+  // @Prop({ type: { type: Types.ObjectId, ref: 'Order' } })
+  orderId: Order['_id'];
 
   @Prop({ required: true })
   @Field(() => Int)
   amount: number;
-
-  @Prop({ type: [{ type: Types.ObjectId, ref: 'Product' }], default: [] })
-  @Field(() => [Product], {
-    nullable: true,
-    defaultValue: [],
-  })
-  products?: Product[];
 }
 
 export const ProductsOrderSchema = SchemaFactory.createForClass(ProductsOrder);
