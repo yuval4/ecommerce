@@ -23,14 +23,10 @@ export class ProductsOrdersService {
   }
 
   findAll(): Promise<ProductsOrder[]> {
-    console.log('object');
-
     return this.productsOrderModel.find().exec();
   }
 
   findOne(id: ProductsOrder['_id']): Promise<ProductsOrder> {
-    console.log('object');
-
     return this.productsOrderModel.findById(id).exec();
   }
 
@@ -55,12 +51,20 @@ export class ProductsOrdersService {
       ...product,
       orderId,
     }));
-
+    console.log({ productsOrders });
     // TODO check
     const insertedProductsOrders =
       await this.productsOrderModel.insertMany(productsOrders);
+    console.log({ insertedProductsOrders });
     return insertedProductsOrders.map((productOrder) =>
       productOrder.toObject(),
     );
+  }
+
+  async findByOrderId(orderId: string): Promise<ProductsOrder[]> {
+    return this.productsOrderModel
+      .find({ orderId })
+      .populate('products')
+      .exec();
   }
 }

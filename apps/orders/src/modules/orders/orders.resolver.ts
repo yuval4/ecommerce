@@ -50,8 +50,31 @@ export class OrdersResolver {
     return this.ordersService.remove(id);
   }
 
-  @ResolveField(() => ProductsOrder)
-  productOrders(@Parent() order: Order) {
-    return { __typename: 'ProductsOrder', id: order._id };
+  // @ResolveField(() => ProductsOrder)
+  // productOrders(@Parent() order: Order) {
+  //   return { __typename: 'ProductsOrder', id: order._id };
+  // }
+
+  @ResolveField(() => [ProductsOrder])
+  async productOrders(@Parent() order: Order): Promise<ProductsOrder[]> {
+    return await this.ordersService.findProductsOrder(order._id);
+    // return [
+    //   {
+    //     amount: 1,
+    //     orderId: order._id,
+    //     productId: '123',
+    //     _id: '123',
+    //   },
+    // ];
   }
+
+  // @ResolveField(() => ProductsOrder)
+  // productOrders(@Parent() order: Order): ProductsOrder {
+  //   return {
+  //     amount: 1,
+  //     orderId: order._id,
+  //     productId: '123',
+  //     _id: '123',
+  //   };
+  // }
 }

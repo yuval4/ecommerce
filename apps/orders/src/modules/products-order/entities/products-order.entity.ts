@@ -25,7 +25,10 @@ export class ProductsOrder {
   amount: number;
 
   @Prop({ type: [{ type: Types.ObjectId, ref: 'Product' }], default: [] })
-  @Field(() => [Product], { nullable: true, defaultValue: [] })
+  @Field(() => [Product], {
+    nullable: true,
+    defaultValue: [],
+  })
   products?: Product[];
 }
 

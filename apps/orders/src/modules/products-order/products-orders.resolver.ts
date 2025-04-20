@@ -54,8 +54,8 @@ export class ProductsOrdersResolver {
     return this.productsOrdersService.remove(id);
   }
 
-  @ResolveField(() => Product)
-  product(@Parent() productsOrder: ProductsOrder) {
-    return { __typename: 'Product', id: productsOrder.productId };
-  }
+  // @ResolveField(() => Product)
+  // product(@Parent() productsOrder: ProductsOrder) {
+  //   return { __typename: 'Product', id: productsOrder.productId };
+  // }
 }

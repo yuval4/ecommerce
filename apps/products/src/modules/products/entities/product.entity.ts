@@ -26,6 +26,7 @@ registerEnumType(ProductStatus, {
 @Schema()
 @ObjectType()
 @Directive('@key(fields: "id")')
+@Directive('@shareable')
 export class Product {
   @Field(() => ID, { name: 'id' })
   _id: string;
