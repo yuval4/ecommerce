@@ -1,6 +1,6 @@
 import { Directive, Field, ID, Int, ObjectType } from '@nestjs/graphql';
-import { HydratedDocument } from 'mongoose';
-import { Prop, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument, Types } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Product } from 'src/modules/orders/entities/product.entity';
 
 // TODO clean up
@@ -8,6 +8,7 @@ import { Product } from 'src/modules/orders/entities/product.entity';
 export type ProductsOrderDocument = HydratedDocument<ProductsOrder>;
 
 @ObjectType()
+@Schema()
 @Directive('@extends')
 @Directive('@key(fields: "id")')
 export class ProductsOrder {
@@ -23,10 +24,8 @@ export class ProductsOrder {
   @Field(() => Int)
   amount: number;
 
-  @Prop({ required: true })
-  @Field(() => [Product])
-  // @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Owner' }] })
-  // owners: Owner[];
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Product' }], default: [] })
+  @Field(() => [Product], { nullable: true, defaultValue: [] })
   products?: Product[];
 }
 

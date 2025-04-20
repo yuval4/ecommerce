@@ -11,6 +11,7 @@ import { UpdateOrderInput } from './dto/update-order.input';
 import { Order } from './entities/order.entity';
 import { Product } from './entities/product.entity';
 import { OrdersService } from './orders.service';
+import { ProductsOrder } from '../products-order/entities/products-order.entity';
 
 @Resolver(() => Order)
 export class OrdersResolver {
@@ -47,5 +48,10 @@ export class OrdersResolver {
     @Args('id', { type: () => String }) id: Order['_id'],
   ): Promise<Order> {
     return this.ordersService.remove(id);
+  }
+
+  @ResolveField(() => ProductsOrder)
+  productOrders(@Parent() order: Order) {
+    return { __typename: 'ProductsOrder', id: order._id };
   }
 }

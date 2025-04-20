@@ -16,6 +16,7 @@ import configuration from 'src/config/configuration';
       useFactory: (configService: ConfigService) => ({
         gateway: {
           supergraphSdl: new IntrospectAndCompose({
+            pollIntervalInMs: 10000,
             subgraphs: [
               {
                 name: 'orders',

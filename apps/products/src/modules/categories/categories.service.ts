@@ -86,11 +86,6 @@ export class CategoriesService {
         .map(
           (categoryId) =>
             categories.find((category) => {
-              console.log(
-                category._id,
-                categoryId,
-                category._id === categoryId,
-              );
               return category._id.toString() === categoryId.toString();
             }) || null,
         )

@@ -55,7 +55,7 @@ export class ProductsOrdersResolver {
   }
 
   @ResolveField(() => Product)
-  products(@Parent() productsOrder: ProductsOrder) {
+  product(@Parent() productsOrder: ProductsOrder) {
     return { __typename: 'Product', id: productsOrder.productId };
   }
 }

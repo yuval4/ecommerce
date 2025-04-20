@@ -13,6 +13,7 @@ import { ProductsOrdersService } from './products-orders.service';
       { name: ProductsOrder.name, schema: ProductsOrderSchema },
     ]),
   ],
+  exports: [ProductsOrdersService],
   providers: [ProductsOrdersResolver, ProductsOrdersService],
 })
 export class ProductOrdersModule {}

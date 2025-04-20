@@ -4,15 +4,29 @@ import { UpdateOrderInput } from './dto/update-order.input';
 import { InjectModel } from '@nestjs/mongoose';
 import { Order } from './entities/order.entity';
 import { Model } from 'mongoose';
+import { ProductsOrdersService } from '../products-order/products-orders.service';
 
 @Injectable()
 export class OrdersService {
-  constructor(@InjectModel(Order.name) private orderModel: Model<Order>) {}
+  constructor(
+    @InjectModel(Order.name) private orderModel: Model<Order>,
+    private readonly productsOrdersService: ProductsOrdersService,
+  ) {}
 
   async create(createOrderInput: CreateOrderInput): Promise<Order> {
-    const createdProduct = new this.orderModel(createOrderInput);
+    const createdOrder = new this.orderModel(createOrderInput);
+    await createdOrder.save();
 
-    return createdProduct.save();
+    try {
+      await this.productsOrdersService.createMany(
+        createdOrder._id,
+        createOrderInput.productOrders,
+      );
+      return createdOrder;
+    } catch (error) {
+      await this.orderModel.findByIdAndDelete(createdOrder._id).exec();
+      throw error;
+    }
   }
 
   async findAll(): Promise<Order[]> {
