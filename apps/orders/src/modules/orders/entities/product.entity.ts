@@ -22,10 +22,12 @@ registerEnumType(ProductStatus, {
 });
 
 @ObjectType()
+@Directive('@extends')
 @Directive('@key(fields: "id")')
 export class Product {
-  @Field(() => ID, { name: 'id' })
-  _id: string;
+  @Field(() => ID)
+  @Directive('@external')
+  id: string;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);

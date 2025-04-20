@@ -22,7 +22,7 @@ export class ProductsOrder {
 
   @Prop({ type: Types.ObjectId, ref: 'Product', required: true })
   @Field(() => ID)
-  productId: Product['_id'];
+  productId: Product['id'];
 
   @Prop({ required: true })
   @Field(() => Int)
