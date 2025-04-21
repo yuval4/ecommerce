@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { ProductStatus } from '@repo/yuval3';
+import { ProductStatus } from '@repo/types';
 import { ApolloError, UserInputError } from 'apollo-server-express';
 import { Model } from 'mongoose';
 import { CreateProductInput } from './dto/create-product.input';

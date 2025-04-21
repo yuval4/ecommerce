@@ -7,7 +7,7 @@ import {
   registerEnumType,
 } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { ProductStatus } from '@repo/yuval3';
+import { ProductStatus } from '@repo/types';
 import mongoose from 'mongoose';
 import { Category } from 'src/modules/categories/entities/categories.entity';
 

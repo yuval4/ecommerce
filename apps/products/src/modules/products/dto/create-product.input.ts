@@ -1,5 +1,5 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
-import { ProductStatus } from '@repo/yuval3';
+import { ProductStatus } from '@repo/types';
 
 @InputType()
 export class CreateProductInput {
