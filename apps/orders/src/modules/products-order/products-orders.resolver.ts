@@ -57,7 +57,6 @@ export class ProductsOrdersResolver {
 
   @ResolveField(() => Product)
   product(@Parent() productsOrder: ProductsOrder) {
-    console.log(productsOrder.productId.toString());
     return { __typename: 'Product', id: productsOrder.productId.toString() };
   }
 }
