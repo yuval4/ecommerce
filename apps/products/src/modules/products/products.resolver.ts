@@ -9,14 +9,11 @@ import {
   ResolveReference,
 } from '@nestjs/graphql';
 import { Category } from '../categories/entities/categories.entity';
+import { IDataloaders } from '../dataloader/dataloader.interface';
 import { CreateProductInput } from './dto/create-product.input';
 import { UpdateProductInput } from './dto/update-product.input';
 import { Product } from './entities/product.entity';
 import { ProductsService } from './products.service';
-import { IDataloaders } from '../dataloader/dataloader.interface';
-import { DataloaderService } from '../dataloader/dataloader.service';
-
-// TODO soft delete?
 
 @Resolver(() => Product)
 export class ProductsResolver {
@@ -61,9 +58,8 @@ export class ProductsResolver {
   @ResolveReference()
   resolveReference(reference: {
     __typename: string;
-    id: string;
+    id: Product['_id'];
   }): Promise<Product> {
-    console.log(reference);
     return this.productsService.findOne(reference.id);
   }
 
@@ -72,6 +68,7 @@ export class ProductsResolver {
     @Parent() product: Product,
     @Context() { loaders }: { loaders: IDataloaders },
   ) {
+    // TODO move to service?
     return loaders.categoriesLoader.load({
       _id: product._id,
       categories: product.categories,

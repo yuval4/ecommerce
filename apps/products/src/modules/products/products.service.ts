@@ -1,18 +1,30 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { ApolloError, UserInputError } from 'apollo-server-express';
 import { Model } from 'mongoose';
 import { CreateProductInput } from './dto/create-product.input';
 import { UpdateProductInput } from './dto/update-product.input';
-import { Product } from './entities/product.entity';
-import { Category } from '../categories/entities/categories.entity';
-
-// TODO handle empty response from DB
+import { Product, ProductStatus } from './entities/product.entity';
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectModel(Product.name) private readonly productModel: Model<Product>,
   ) {}
+
+  private async getActiveProductById(id: Product['_id']): Promise<Product> {
+    const product = await this.productModel.findById(id).exec();
+
+    if (!product) {
+      throw new ApolloError(`Product with ID ${id} not found`, 'NOT_FOUND');
+    }
+
+    if (product.status === ProductStatus.DISABLED) {
+      throw new UserInputError('Product is disabled');
+    }
+
+    return product;
+  }
 
   async create(createProductInput: CreateProductInput): Promise<Product> {
     const createdProduct = new this.productModel(createProductInput);
@@ -21,28 +33,31 @@ export class ProductsService {
   }
 
   async findAll(): Promise<Product[]> {
-    return this.productModel.find().exec();
+    return this.productModel.find({ status: ProductStatus.ACTIVE }).exec();
   }
 
   async findOne(id: Product['_id']): Promise<Product> {
-    return this.productModel.findById(id).exec();
+    return this.getActiveProductById(id);
   }
 
   async update(
     id: Product['_id'],
     updateProductInput: UpdateProductInput,
   ): Promise<Product> {
-    return this.productModel
-      .findByIdAndUpdate(id, updateProductInput, { new: true })
-      .exec();
+    await this.getActiveProductById(id);
+
+    return this.productModel.findByIdAndUpdate(id, updateProductInput, {
+      new: true,
+    });
   }
 
   async remove(id: Product['_id']): Promise<Product> {
-    return this.productModel.findByIdAndDelete(id).exec();
-  }
+    await this.getActiveProductById(id);
 
-  async findCategoriesByProductId(id: Product['_id']): Promise<Category[]> {
-    return [];
-    // return this.dataLoader.createLoader().load(id);
+    return this.productModel.findByIdAndUpdate(
+      id,
+      { status: ProductStatus.DISABLED },
+      { new: true },
+    );
   }
 }

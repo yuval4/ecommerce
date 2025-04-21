@@ -9,22 +9,21 @@ export class CreateProductInput {
   @Field(() => String, { nullable: true, defaultValue: new Date() })
   uploadedDate: string;
 
-  @Field(() => String, { nullable: true })
+  @Field(() => String, { nullable: true, defaultValue: '' })
   description: string;
 
-  @Field(() => Int, { nullable: true })
+  @Field(() => Int, { nullable: false })
   price: number;
 
   @Field(() => String, { nullable: false })
   sellerName: string;
 
-  @Field(() => String, {
-    nullable: true,
-    defaultValue:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvAnXgqD8WH2Z4NNEkQIwmuujboUOtoHeFKg&s',
-  })
+  @Field(() => String, { nullable: true })
   imageUrl: string;
 
-  @Field(() => ProductStatus, { nullable: true })
+  @Field(() => ProductStatus, {
+    nullable: true,
+    defaultValue: ProductStatus.ACTIVE,
+  })
   status: ProductStatus;
 }

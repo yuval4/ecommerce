@@ -7,10 +7,10 @@ import {
   registerEnumType,
 } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
+import mongoose from 'mongoose';
 import { Category } from 'src/modules/categories/entities/categories.entity';
 
-export type ProductDocument = HydratedDocument<Product>;
+// TODO yuval
 
 // TODO move to common
 export enum ProductStatus {
@@ -54,6 +54,7 @@ export class Product {
   @Field()
   @Prop({
     required: false,
+    // * default image should be in the client
     default:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvAnXgqD8WH2Z4NNEkQIwmuujboUOtoHeFKg&s',
   })
@@ -63,10 +64,7 @@ export class Product {
   @Prop({ type: String, enum: ProductStatus, default: ProductStatus.ACTIVE })
   status: ProductStatus;
 
-  // TODO edit
-
-  // @Field(() => [Category], { nullable: true })
-  // @Prop({ required: false })
+  @Field(() => [Category])
   @Prop({
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: Category.name }],
     default: [],
