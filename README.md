@@ -60,8 +60,6 @@ PRODUCTS_SERVICE_URL=http://localhost:3002/graphql
    mongod --replSet rs0 --port 27017 --dbpath /path/to/your/data/db --bind_ip 127.0.0.1
    ```
 
-````
-
 2. In MongoDB shell (mongosh), initiate the Replica Set:
 
    ```bash
@@ -107,4 +105,3 @@ PRODUCTS_SERVICE_URL=http://localhost:3002/graphql
 ### Description 📜
 
 This project includes Product and Order modules, with functionalities for creating, updating, and deleting entities. Each order creation also creates a ProductOrder and performs transactions to ensure data integrity 💪.
-````
