@@ -4,6 +4,7 @@ import mongoose, { Model } from 'mongoose';
 import { CreateProductsOrderInput } from './dto/create-products-order.input';
 import { UpdateProductsOrderInput } from './dto/update-products-order.input';
 import { ProductsOrder } from './entities/products-order.entity';
+import { Order } from '../orders/entities/order.entity';
 
 @Injectable()
 export class ProductsOrdersService {
@@ -44,7 +45,7 @@ export class ProductsOrdersService {
   }
 
   async createMany(
-    orderId: string,
+    orderId: Order['_id'],
     products: CreateProductsOrderInput[],
   ): Promise<ProductsOrder[]> {
     const productsOrders = products.map((product) => ({
@@ -67,7 +68,7 @@ export class ProductsOrdersService {
     return populatedProductsOrders;
   }
 
-  async findByOrderId(orderId: string): Promise<ProductsOrder[]> {
+  async findByOrderId(orderId: Order['_id']): Promise<ProductsOrder[]> {
     return this.productsOrderModel.find({ orderId }).exec();
   }
 }

@@ -27,8 +27,6 @@ export class ProductsOrdersResolver {
 
   @Query(() => [ProductsOrder], { name: 'productsOrders' })
   async findAll(): Promise<ProductsOrder[]> {
-    const a = await this.productsOrdersService.findAll();
-    console.log(a);
     return this.productsOrdersService.findAll();
   }
 

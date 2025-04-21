@@ -1,8 +1,5 @@
 import { Directive, Field, ID, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
-
-export type CategoryDocument = HydratedDocument<Category>;
 
 @Schema({})
 @ObjectType()

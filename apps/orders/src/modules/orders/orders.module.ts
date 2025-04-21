@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { OrdersService as OrdersService } from './orders.service';
-import { OrdersResolver } from './orders.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Order, OrderSchema } from './entities/order.entity';
 import { ProductOrdersModule } from '../products-order/produts-orders.module';
+import { Order, OrderSchema } from './entities/order.entity';
+import { OrdersResolver } from './orders.resolver';
+import { OrdersService } from './orders.service';
 
 @Module({
   imports: [

@@ -6,6 +6,6 @@ export class CreateOrderInput {
   @Field(() => Date, { nullable: true, defaultValue: new Date() })
   orderDate?: Date;
 
-  @Field(() => [CreateProductsOrderInput], { nullable: true, defaultValue: [] })
+  @Field(() => [CreateProductsOrderInput])
   productOrders?: CreateProductsOrderInput[];
 }

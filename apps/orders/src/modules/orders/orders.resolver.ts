@@ -6,12 +6,11 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
+import { ProductsOrder } from '../products-order/entities/products-order.entity';
 import { CreateOrderInput } from './dto/create-order.input';
 import { UpdateOrderInput } from './dto/update-order.input';
 import { Order } from './entities/order.entity';
-import { Product } from './entities/product.entity';
 import { OrdersService } from './orders.service';
-import { ProductsOrder } from '../products-order/entities/products-order.entity';
 
 @Resolver(() => Order)
 export class OrdersResolver {
@@ -50,27 +49,15 @@ export class OrdersResolver {
     return this.ordersService.remove(id);
   }
 
-  // @ResolveField(() => ProductsOrder)
-  // productOrders(@Parent() order: Order) {
-  //   return { __typename: 'ProductsOrder', id: order._id };
-  // }
-
   @ResolveField(() => [ProductsOrder])
   async productOrders(@Parent() order: Order): Promise<ProductsOrder[]> {
     return await this.ordersService.findProductsOrder(order._id);
-    // return [
-    //   {
-    //     amount: 1,
-    //     orderId: order._id,
-    //     productId: '123',
-    //     _id: '123',
-    //   },
-    // ];
   }
 
-  // @ResolveField(() => Product)
-  // product(@Parent() order: Order) {
-  //   console.log('Resolving product for order:', order._id);
-  //   return { __typename: 'Product', id: '67f3c6934fca0fef7fceadaa' };
+  // TODO yuval which one to use?
+
+  // @ResolveField(() => ProductsOrder)
+  // productOrders(@Parent() order: Order) {
+  //   return { __typename: 'ProductsOrder', id: order._id };
   // }
 }

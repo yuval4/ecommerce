@@ -3,11 +3,11 @@ import {
   ApolloFederationDriverConfig,
 } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
-import { GraphQLModule } from '@nestjs/graphql';
-import { OrdersModule } from './orders/orders.module';
-import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { GraphQLModule } from '@nestjs/graphql';
+import { MongooseModule } from '@nestjs/mongoose';
 import configuration, { Config } from 'src/config/configuration';
+import { OrdersModule } from './orders/orders.module';
 import { ProductOrdersModule } from './products-order/produts-orders.module';
 
 @Module({

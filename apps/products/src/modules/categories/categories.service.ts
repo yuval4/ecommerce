@@ -5,14 +5,25 @@ import { CreateCategoryInput } from './dto/create-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
 import { Category } from './entities/categories.entity';
 import { Product } from '../products/entities/product.entity';
+import { ApolloError } from 'apollo-server-express';
 
-// TODO handle empty response from DB
+// TODO rename product
 
 @Injectable()
 export class CategoriesService {
   constructor(
     @InjectModel(Category.name) private categoryModel: Model<Category>,
   ) {}
+
+  private async getCategoryById(id: Category['_id']): Promise<Category> {
+    const category = await this.categoryModel.findById(id).exec();
+
+    if (!category) {
+      throw new ApolloError(`Category with ID ${id} not found`, 'NOT_FOUND');
+    }
+
+    return category;
+  }
 
   async create(createCategoryInput: CreateCategoryInput): Promise<Category> {
     const createdProduct = new this.categoryModel(createCategoryInput);
@@ -25,22 +36,27 @@ export class CategoriesService {
   }
 
   async findOne(id: Category['_id']): Promise<Category> {
-    return this.categoryModel.findById(id).exec();
+    return this.getCategoryById(id);
   }
 
   async update(
     id: Category['_id'],
     updateCategoryInput: UpdateCategoryInput,
   ): Promise<Category> {
+    await this.getCategoryById(id);
+
     return this.categoryModel
       .findByIdAndUpdate(id, updateCategoryInput, { new: true })
       .exec();
   }
 
   async remove(id: Category['_id']): Promise<Category> {
+    await this.getCategoryById(id);
+
     return this.categoryModel.findByIdAndDelete(id).exec();
   }
 
+  // TODO delete
   private _mapResultToIds(
     productsIds: readonly Product['_id'][],
     categories: Category[],

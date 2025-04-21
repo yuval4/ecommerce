@@ -1,12 +1,11 @@
 import { Directive, Field, ID, Int, ObjectType } from '@nestjs/graphql';
-import { HydratedDocument, Types } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Product } from 'src/modules/orders/entities/product.entity';
+import { Types } from 'mongoose';
 import { Order } from 'src/modules/orders/entities/order.entity';
+import { Product } from 'src/modules/orders/entities/product.entity';
 
 // TODO clean up
-
-export type ProductsOrderDocument = HydratedDocument<ProductsOrder>;
+// TODO extends and external
 
 @ObjectType()
 @Schema()

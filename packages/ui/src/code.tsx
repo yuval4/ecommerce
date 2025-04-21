@@ -1,5 +1,7 @@
 import { type JSX } from "react";
 
+// TODO delete package
+
 export function Code({
   children,
   className,

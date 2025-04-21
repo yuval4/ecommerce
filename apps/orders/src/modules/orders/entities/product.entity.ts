@@ -6,9 +6,9 @@ import {
   registerEnumType,
 } from '@nestjs/graphql';
 import { SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
 
-export type ProductDocument = HydratedDocument<Product>;
+// TODO extends and external
+// TODO move to common
 
 // TODO move to common
 export enum ProductStatus {

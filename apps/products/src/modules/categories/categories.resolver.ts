@@ -10,8 +10,6 @@ import { CreateCategoryInput } from './dto/create-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
 import { Category } from './entities/categories.entity';
 
-// TODO soft delete?
-
 @Resolver(() => Category)
 export class CategoriesResolver {
   constructor(private readonly categoriesService: CategoriesService) {}
@@ -52,6 +50,7 @@ export class CategoriesResolver {
     return this.categoriesService.remove(id);
   }
 
+  // TODO yuval in use?
   @ResolveReference()
   resolveReference(reference: {
     __typename: string;
