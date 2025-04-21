@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import * as DataLoader from 'dataloader';
 import { CategoriesService } from '../categories/categories.service';
 import { Category } from '../categories/entities/categories.entity';
-import { IDataloaders } from './dataloader.interface';
 import { Product } from '../products/entities/product.entity';
+import { IDataloaders } from './dataloader.interface';
 
 @Injectable()
 export class DataloaderService {
@@ -28,6 +28,7 @@ export class DataloaderService {
         _id: product._id,
         categories: product.categories,
       }));
+
       return this.categoriesService.findAllByProductsIds(productsToIds);
     });
   }
