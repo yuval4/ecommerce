@@ -21,7 +21,6 @@
   },
   "dependencies": {
     "@repo/yuval3": "*",
-    "@repo/types": "*",
     "@nestjs/apollo": "^10.2.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",

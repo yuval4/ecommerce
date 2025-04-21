@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { ProductStatus } from '@repo/yuval3';
 import { ApolloError, UserInputError } from 'apollo-server-express';
 import { Model } from 'mongoose';
 import { CreateProductInput } from './dto/create-product.input';
 import { UpdateProductInput } from './dto/update-product.input';
-import { Product, ProductStatus } from './entities/product.entity';
+import { Product } from './entities/product.entity';
 
 @Injectable()
 export class ProductsService {

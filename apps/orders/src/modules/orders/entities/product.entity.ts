@@ -6,15 +6,10 @@ import {
   registerEnumType,
 } from '@nestjs/graphql';
 import { SchemaFactory } from '@nestjs/mongoose';
+import { ProductStatus } from '@repo/yuval3';
 
 // TODO extends and external
 // TODO move to common
-
-// TODO move to common
-export enum ProductStatus {
-  ACTIVE = 'ACTIVE',
-  DISABLED = 'DISABLED',
-}
 
 registerEnumType(ProductStatus, {
   name: 'ProductStatus',

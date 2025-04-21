@@ -5,10 +5,12 @@
     "dev": "tsc --watch",
     "build": "tsc"
   },
+  "main": "dist/index.js", 
+  "types": "src/index.ts", 
   "exports": {
     ".": {
-      "types": "./src/add.ts",
-      "default": "./dist/add.js"
+      "types": "./src/index.ts",
+      "default": "./dist/index.js"
     }
   },
   "devDependencies": {
