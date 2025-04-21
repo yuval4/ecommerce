@@ -2,7 +2,7 @@ import { Directive, Field, ID, Int, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
 import { Order } from 'src/modules/orders/entities/order.entity';
-import { Product } from 'src/modules/orders/entities/product.entity';
+import { Product } from 'src/modules/products-order/entities/product.entity';
 
 @ObjectType()
 @Schema()

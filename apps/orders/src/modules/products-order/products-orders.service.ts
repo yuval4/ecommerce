@@ -89,7 +89,6 @@ export class ProductsOrdersService {
     return populatedProductsOrders;
   }
 
-  // TODO
   async findByOrderId(orderId: Order['_id']): Promise<ProductsOrder[]> {
     return this.productsOrderModel.find({ orderId }).exec();
   }

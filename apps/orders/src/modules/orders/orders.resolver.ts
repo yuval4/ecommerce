@@ -53,11 +53,4 @@ export class OrdersResolver {
   async productOrders(@Parent() order: Order): Promise<ProductsOrder[]> {
     return await this.ordersService.findProductsOrder(order._id);
   }
-
-  // TODO yuval which one to use?
-
-  // @ResolveField(() => ProductsOrder)
-  // productOrders(@Parent() order: Order) {
-  //   return { __typename: 'ProductsOrder', id: order._id };
-  // }
 }

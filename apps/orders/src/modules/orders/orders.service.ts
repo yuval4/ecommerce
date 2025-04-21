@@ -69,7 +69,6 @@ export class OrdersService {
     return this.orderModel.findByIdAndDelete(id).exec();
   }
 
-  // TODO
   async findProductsOrder(id: Order['_id']): Promise<ProductsOrder[]> {
     return this.productsOrdersService.findByOrderId(id);
   }

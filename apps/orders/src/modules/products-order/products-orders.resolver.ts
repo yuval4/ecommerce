@@ -7,7 +7,7 @@ import {
   Resolver,
   ResolveReference,
 } from '@nestjs/graphql';
-import { Product } from 'src/modules/orders/entities/product.entity';
+import { Product } from 'src/modules/products-order/entities/product.entity';
 import { CreateProductsOrderInput } from './dto/create-products-order.input';
 import { UpdateProductsOrderInput } from './dto/update-products-order.input';
 import { ProductsOrder } from './entities/products-order.entity';
