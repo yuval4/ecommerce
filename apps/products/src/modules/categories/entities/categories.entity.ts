@@ -1,7 +1,7 @@
 import { Directive, Field, ID, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-@Schema({})
+@Schema()
 @ObjectType()
 @Directive('@key(fields: "categoryId")')
 export class Category {

@@ -49,13 +49,4 @@ export class CategoriesResolver {
   ): Promise<Category> {
     return this.categoriesService.remove(id);
   }
-
-  // TODO yuval in use?
-  @ResolveReference()
-  resolveReference(reference: {
-    __typename: string;
-    id: Category['_id'];
-  }): Promise<Category> {
-    return this.categoriesService.findOne(reference.id);
-  }
 }
