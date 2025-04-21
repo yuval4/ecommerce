@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model } from 'mongoose';
+import mongoose, { ClientSession, Model } from 'mongoose';
 import { CreateProductsOrderInput } from './dto/create-products-order.input';
 import { UpdateProductsOrderInput } from './dto/update-products-order.input';
 import { ProductsOrder } from './entities/products-order.entity';
@@ -63,30 +63,22 @@ export class ProductsOrdersService {
 
     return this.productsOrderModel.findByIdAndDelete(id).exec();
   }
-
-  // TODO
   async createMany(
     orderId: Order['_id'],
     products: CreateProductsOrderInput[],
+    session: ClientSession,
   ): Promise<ProductsOrder[]> {
     const productsOrders = products.map((product) => ({
       ...product,
       orderId,
       productId: new mongoose.Types.ObjectId(product.productId),
     }));
-    // TODO check
-    const insertedProductsOrders =
-      await this.productsOrderModel.insertMany(productsOrders);
 
-    const ids = insertedProductsOrders.map((productOrder) => productOrder._id);
+    const inserted = await this.productsOrderModel.insertMany(productsOrders, {
+      session,
+    });
 
-    // find by ids and populate
-    const populatedProductsOrders = await this.productsOrderModel
-      .find({ _id: { $in: ids } })
-      // .populate('productId')
-      .exec();
-
-    return populatedProductsOrders;
+    return inserted;
   }
 
   async findByOrderId(orderId: Order['_id']): Promise<ProductsOrder[]> {

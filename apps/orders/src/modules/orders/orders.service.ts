@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { InjectConnection, InjectModel } from '@nestjs/mongoose';
+import { Connection, Model } from 'mongoose';
 import { ProductsOrder } from '../products-order/entities/products-order.entity';
 import { ProductsOrdersService } from '../products-order/products-orders.service';
 import { CreateOrderInput } from './dto/create-order.input';
@@ -13,6 +13,7 @@ export class OrdersService {
   constructor(
     @InjectModel(Order.name) private orderModel: Model<Order>,
     private readonly productsOrdersService: ProductsOrdersService,
+    @InjectConnection() private readonly connection: Connection,
   ) {}
 
   private async getOrderById(id: Order['_id']): Promise<Order> {
@@ -25,22 +26,28 @@ export class OrdersService {
     return order;
   }
 
-  // TODO
   async create(createOrderInput: CreateOrderInput): Promise<Order> {
-    const createdOrder = new this.orderModel(createOrderInput);
-    // TODO transaction
-    await createdOrder.save();
+    const session = await this.connection.startSession();
+    session.startTransaction();
 
     try {
+      const createdOrder = new this.orderModel(createOrderInput);
+      await createdOrder.save({ session });
+
       await this.productsOrdersService.createMany(
         createdOrder._id,
         createOrderInput.productOrders,
+        session,
       );
 
-      return await this.findOne(createdOrder._id);
+      await session.commitTransaction();
+
+      return this.findOne(createdOrder._id);
     } catch (error) {
-      await this.orderModel.findByIdAndDelete(createdOrder._id).exec();
+      await session.abortTransaction();
       throw error;
+    } finally {
+      session.endSession();
     }
   }
 
