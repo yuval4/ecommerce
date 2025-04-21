@@ -2,11 +2,11 @@ import { Field, InputType, Int } from '@nestjs/graphql';
 
 @InputType()
 export class CreateProductsOrderInput {
-  @Field(() => Date, { nullable: true })
-  productsOrderDate?: Date;
+  @Field(() => String)
+  orderId: string;
 
-  @Field(() => String, { nullable: true })
-  productId?: string;
+  @Field(() => String)
+  productId: string;
 
   @Field(() => Int)
   amount: number;

@@ -19,7 +19,7 @@ export class CreateProductInput {
   sellerName: string;
 
   @Field(() => String, { nullable: true })
-  imageUrl: string;
+  imageUrl?: string;
 
   @Field(() => ProductStatus, {
     nullable: true,

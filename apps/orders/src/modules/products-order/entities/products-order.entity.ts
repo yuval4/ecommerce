@@ -4,9 +4,6 @@ import { Types } from 'mongoose';
 import { Order } from 'src/modules/orders/entities/order.entity';
 import { Product } from 'src/modules/orders/entities/product.entity';
 
-// TODO clean up
-// TODO extends and external
-
 @ObjectType()
 @Schema()
 @Directive('@extends')
@@ -16,11 +13,11 @@ export class ProductsOrder {
   @Directive('@external')
   _id: string;
 
-  @Prop({ type: Types.ObjectId, ref: 'Order', required: true })
+  @Prop({ type: Types.ObjectId, required: true })
   orderId: Order['_id'];
 
-  @Prop({ type: Types.ObjectId, ref: 'Product', required: true })
-  @Field(() => ID)
+  @Prop({ type: Types.ObjectId, required: true })
+  @Field(() => ID) // TODO delete this?
   productId: Product['id'];
 
   @Prop({ required: true })

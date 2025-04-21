@@ -5,6 +5,7 @@ import { CreateProductsOrderInput } from './dto/create-products-order.input';
 import { UpdateProductsOrderInput } from './dto/update-products-order.input';
 import { ProductsOrder } from './entities/products-order.entity';
 import { Order } from '../orders/entities/order.entity';
+import { ApolloError } from 'apollo-server-express';
 
 @Injectable()
 export class ProductsOrdersService {
@@ -12,6 +13,21 @@ export class ProductsOrdersService {
     @InjectModel(ProductsOrder.name)
     private productsOrderModel: Model<ProductsOrder>,
   ) {}
+
+  private async getProductOrderById(
+    id: ProductsOrder['_id'],
+  ): Promise<ProductsOrder> {
+    const productOrder = await this.productsOrderModel.findById(id).exec();
+
+    if (!productOrder) {
+      throw new ApolloError(
+        `productOrder with ID ${id} not found`,
+        'NOT_FOUND',
+      );
+    }
+
+    return productOrder;
+  }
 
   create(
     createProductsOrderInput: CreateProductsOrderInput,
@@ -28,22 +44,27 @@ export class ProductsOrdersService {
   }
 
   findOne(id: ProductsOrder['_id']): Promise<ProductsOrder> {
-    return this.productsOrderModel.findById(id).exec();
+    return this.getProductOrderById(id);
   }
 
-  update(
+  async update(
     id: ProductsOrder['_id'],
     updateProductsOrderInput: UpdateProductsOrderInput,
   ): Promise<ProductsOrder> {
+    await this.getProductOrderById(id);
+
     return this.productsOrderModel
       .findByIdAndUpdate(id, updateProductsOrderInput, { new: true })
       .exec();
   }
 
   async remove(id: ProductsOrder['_id']): Promise<ProductsOrder> {
+    await this.getProductOrderById(id);
+
     return this.productsOrderModel.findByIdAndDelete(id).exec();
   }
 
+  // TODO
   async createMany(
     orderId: Order['_id'],
     products: CreateProductsOrderInput[],
@@ -68,6 +89,7 @@ export class ProductsOrdersService {
     return populatedProductsOrders;
   }
 
+  // TODO
   async findByOrderId(orderId: Order['_id']): Promise<ProductsOrder[]> {
     return this.productsOrderModel.find({ orderId }).exec();
   }
