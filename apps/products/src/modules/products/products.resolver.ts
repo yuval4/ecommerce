@@ -68,7 +68,6 @@ export class ProductsResolver {
     @Parent() product: Product,
     @Context() { loaders }: { loaders: IDataloaders },
   ) {
-    // TODO move to service?
     return loaders.categoriesLoader.load({
       _id: product._id,
       categories: product.categories,

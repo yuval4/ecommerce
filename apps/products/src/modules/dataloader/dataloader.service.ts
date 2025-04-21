@@ -29,7 +29,7 @@ export class DataloaderService {
         categories: product.categories,
       }));
 
-      return this.categoriesService.findAllByProductsIds(productsToIds);
+      return this.categoriesService.mapProductCategories(productsToIds);
     });
   }
 }

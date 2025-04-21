@@ -7,8 +7,6 @@ import { Category } from './entities/categories.entity';
 import { Product } from '../products/entities/product.entity';
 import { ApolloError } from 'apollo-server-express';
 
-// TODO rename product
-
 @Injectable()
 export class CategoriesService {
   constructor(
@@ -56,56 +54,45 @@ export class CategoriesService {
     return this.categoryModel.findByIdAndDelete(id).exec();
   }
 
-  // TODO delete
-  private _mapResultToIds(
-    productsIds: readonly Product['_id'][],
-    categories: Category[],
-  ) {
-    return productsIds.map(
-      (id) =>
-        categories.filter((category: Category) => category._id === id) || null,
-    );
-  }
-
-  // async findAllByProductsIds(
-  //   productsIds: Product['_id'][],
-  // ): Promise<Category[][] | any> {
-  //   const categories = await this.categoryModel.find().exec();
-
-  //   if (!categories || categories.length === 0) {
-  //     console.warn('No categories found for the provided product IDs');
-  //     return [];
-  //   }
-  //   const mappedResults = this._mapResultToIds(productsIds, categories);
-
-  //   return mappedResults;
-  // }
-
-  // TODO export product to categories to type
-
-  async findAllByProductsIds(
-    productsToCatecories: {
+  async mapProductCategories(
+    productsToCategories: {
       _id: Product['_id'];
       categories: Category['_id'][];
     }[],
   ): Promise<Category[][]> {
-    const categoryIds = [
-      ...new Set(productsToCatecories.flatMap((product) => product.categories)),
+    const allCategoryIds = this._extractUniqueCategoryIds(productsToCategories);
+    const categories = await this._fetchCategoriesByIds(allCategoryIds);
+    const categoryMap = this._mapCategoriesById(categories);
+
+    return this._mapProductsToCategories(productsToCategories, categoryMap);
+  }
+
+  private _extractUniqueCategoryIds(
+    products: { categories: Category['_id'][] }[],
+  ): string[] {
+    return [
+      ...new Set(
+        products.flatMap((p) => p.categories.map((id) => id.toString())),
+      ),
     ];
+  }
 
-    const categories = await this.categoryModel
-      .find({ _id: { $in: categoryIds } })
-      .exec();
+  private async _fetchCategoriesByIds(ids: string[]): Promise<Category[]> {
+    return this.categoryModel.find({ _id: { $in: ids } }).exec();
+  }
 
-    return productsToCatecories.map((product) =>
-      product.categories
-        .map(
-          (categoryId) =>
-            categories.find((category) => {
-              return category._id.toString() === categoryId.toString();
-            }) || null,
-        )
-        .filter((category) => category !== null),
+  private _mapCategoriesById(categories: Category[]): Map<string, Category> {
+    return new Map(categories.map((c) => [c._id.toString(), c]));
+  }
+
+  private _mapProductsToCategories(
+    products: { categories: Category['_id'][] }[],
+    categoryMap: Map<string, Category>,
+  ): Category[][] {
+    return products.map(({ categories }) =>
+      categories
+        .map((id) => categoryMap.get(id.toString()))
+        .filter((category): category is Category => Boolean(category)),
     );
   }
 }
