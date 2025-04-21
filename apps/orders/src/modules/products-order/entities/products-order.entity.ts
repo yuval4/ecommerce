@@ -17,7 +17,6 @@ export class ProductsOrder {
   orderId: Order['_id'];
 
   @Prop({ type: Types.ObjectId, required: true })
-  @Field(() => ID) // TODO delete this?
   productId: Product['id'];
 
   @Prop({ required: true })
