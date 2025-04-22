@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
-import { CategoriesModule } from '../categories/categories.module';
 import { DataloaderService } from './dataloader.service';
-import { ProductsModule } from '../products/products.module';
+import { ProductOrdersModule } from '../products-order/produts-orders.module';
 
 @Module({
-  imports: [CategoriesModule, ProductsModule],
+  imports: [ProductOrdersModule],
   exports: [DataloaderService],
   providers: [DataloaderService],
 })

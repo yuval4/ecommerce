@@ -3,7 +3,7 @@
     {
       "setAsActive": true,
       "splitTerminals": [
-        { "name": "gateway", "commands": ["sleep 4 && npm run dev:gateway"] }
+        { "name": "gateway", "commands": ["sleep 5 && npm run dev:gateway"] }
       ]
     },
     {

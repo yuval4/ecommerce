@@ -81,7 +81,7 @@ export class ProductsOrdersService {
     return inserted;
   }
 
-  async findByOrderId(orderId: Order['_id']): Promise<ProductsOrder[]> {
-    return this.productsOrderModel.find({ orderId }).exec();
+  async findByOrderIds(orderIds: string[]): Promise<ProductsOrder[]> {
+    return this.productsOrderModel.find({ orderId: { $in: orderIds } }).exec();
   }
 }

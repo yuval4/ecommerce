@@ -61,4 +61,10 @@ export class ProductsService {
       { new: true },
     );
   }
+
+  async findByIds(ids: Product['_id'][]): Promise<Product[]> {
+    return this.productModel
+      .find({ _id: { $in: ids }, status: ProductStatus.ACTIVE })
+      .exec();
+  }
 }

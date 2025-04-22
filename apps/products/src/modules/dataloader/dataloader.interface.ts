@@ -10,4 +10,5 @@ export interface IDataloaders {
     },
     Category[]
   >;
+  productsLoader: DataLoader<Product['_id'], Product>;
 }

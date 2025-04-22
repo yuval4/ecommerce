@@ -9,6 +9,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import configuration, { Config } from 'src/config/configuration';
 import { OrdersModule } from './orders/orders.module';
 import { ProductOrdersModule } from './products-order/produts-orders.module';
+import { DataloaderModule } from './dataloader/dataloader.module';
+import { DataloaderService } from './dataloader/dataloader.service';
 
 @Module({
   imports: [
@@ -24,10 +26,19 @@ import { ProductOrdersModule } from './products-order/produts-orders.module';
       }),
       inject: [ConfigService],
     }),
-    GraphQLModule.forRoot<ApolloFederationDriverConfig>({
+    GraphQLModule.forRootAsync<ApolloFederationDriverConfig>({
       driver: ApolloFederationDriver,
-      autoSchemaFile: { federation: 2 },
-      cors: true,
+      imports: [DataloaderModule],
+      inject: [DataloaderService],
+      useFactory: (dataloaderService: DataloaderService) => {
+        return {
+          autoSchemaFile: { federation: 2 },
+          cors: true,
+          context: () => ({
+            loaders: dataloaderService.getLoaders(),
+          }),
+        };
+      },
     }),
     OrdersModule,
     ProductOrdersModule,
