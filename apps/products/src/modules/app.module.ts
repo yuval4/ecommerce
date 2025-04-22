@@ -2,14 +2,14 @@ import {
   ApolloFederationDriver,
   ApolloFederationDriverConfig,
 } from '@nestjs/apollo';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { MongooseModule } from '@nestjs/mongoose';
+import { DataloaderMiddleware } from 'src/common/middleware/dataloader.middleware';
 import configuration, { Config } from 'src/config/configuration';
 import { CategoriesModule } from './categories/categories.module';
 import { DataloaderModule } from './dataloader/dataloader.module';
-import { DataloaderService } from './dataloader/dataloader.service';
 import { ProductsModule } from './products/products.module';
 
 @Module({
@@ -26,23 +26,21 @@ import { ProductsModule } from './products/products.module';
       }),
       inject: [ConfigService],
     }),
-    GraphQLModule.forRootAsync<ApolloFederationDriverConfig>({
+    GraphQLModule.forRoot<ApolloFederationDriverConfig>({
       driver: ApolloFederationDriver,
-      imports: [DataloaderModule],
-      inject: [DataloaderService],
-      useFactory: (dataloaderService: DataloaderService) => {
-        return {
-          autoSchemaFile: { federation: 2 },
-          cors: true,
-          context: () => ({
-            loaders: dataloaderService.getLoaders(),
-          }),
-        };
-      },
+      autoSchemaFile: { federation: 2 },
+      cors: true,
+      context: ({ req }) => ({
+        loaders: req.loaders,
+      }),
     }),
     ProductsModule,
     CategoriesModule,
+    DataloaderModule,
   ],
-  providers: [ProductsModule, DataloaderModule],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(DataloaderMiddleware).forRoutes('*');
+  }
+}
