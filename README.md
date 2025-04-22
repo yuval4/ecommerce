@@ -79,6 +79,11 @@ PRODUCTS_SERVICE_URL=http://localhost:3002/graphql
    npm install
    ```
 
+   ```bash
+   cd packages/types
+   npm run build
+   ```
+
 2. Update the MongoDB connection in NestJS to include the replicaSet parameter:
    ```bash
    MongooseModule.forRoot('mongodb://localhost:27017/yourDatabase?replicaSet=rs0')
