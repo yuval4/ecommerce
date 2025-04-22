@@ -1,0 +1,20 @@
+{
+  "restoreTerminals.terminals": [
+    {
+      "setAsActive": true,
+      "splitTerminals": [
+        { "name": "gateway", "commands": ["sleep 5 && npm run dev:gateway"] }
+      ]
+    },
+    {
+      "splitTerminals": [
+        { "name": "orders", "commands": ["npm run dev:orders"] }
+      ]
+    },
+    {
+      "splitTerminals": [
+        { "name": "products", "commands": ["npm run dev:products"] }
+      ]
+    }
+  ]
+}
