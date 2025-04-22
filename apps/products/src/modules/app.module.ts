@@ -43,6 +43,5 @@ import { ProductsModule } from './products/products.module';
     ProductsModule,
     CategoriesModule,
   ],
-  providers: [ProductsModule, DataloaderModule],
 })
 export class AppModule {}

@@ -56,11 +56,11 @@ export class ProductsResolver {
   }
 
   @ResolveReference()
-  resolveReference(reference: {
-    __typename: string;
-    id: Product['_id'];
-  }): Promise<Product> {
-    return this.productsService.findOne(reference.id);
+  resolveReference(
+    reference: { __typename: string; id: Product['_id'] },
+    context: { loaders: IDataloaders },
+  ): Promise<Product> {
+    return context.loaders.productsLoader.load(reference.id);
   }
 
   @ResolveField(() => [Category])
