@@ -1,5 +1,6 @@
 import {
   Args,
+  Context,
   Mutation,
   Parent,
   Query,
@@ -11,6 +12,7 @@ import { CreateOrderInput } from './dto/create-order.input';
 import { UpdateOrderInput } from './dto/update-order.input';
 import { Order } from './entities/order.entity';
 import { OrdersService } from './orders.service';
+import { IDataloaders } from '../dataloader/dataloader.interface';
 
 @Resolver(() => Order)
 export class OrdersResolver {
@@ -50,7 +52,10 @@ export class OrdersResolver {
   }
 
   @ResolveField(() => [ProductsOrder])
-  async productOrders(@Parent() order: Order): Promise<ProductsOrder[]> {
-    return await this.ordersService.findProductsOrder(order._id);
+  productOrders(
+    @Parent() order: Order,
+    @Context() { loaders }: { loaders: IDataloaders },
+  ): Promise<ProductsOrder[]> {
+    return loaders.productsOrdersLoader.load(order._id);
   }
 }
