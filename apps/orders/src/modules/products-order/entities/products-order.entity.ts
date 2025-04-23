@@ -9,7 +9,7 @@ import { Product } from 'src/modules/products-order/entities/product.entity';
 @Directive('@extends')
 @Directive('@key(fields: "id")')
 export class ProductsOrder {
-  @Field(() => ID, { name: 'id' })
+  @Field(() => ID)
   @Directive('@external')
   id: string;
 
