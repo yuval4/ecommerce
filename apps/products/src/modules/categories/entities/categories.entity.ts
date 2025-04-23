@@ -6,7 +6,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 @Directive('@key(fields: "categoryId")')
 export class Category {
   @Field(() => ID, { name: 'categoryId' })
-  _id: string;
+  id: string;
 
   @Field()
   @Prop({ required: true })

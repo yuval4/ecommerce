@@ -25,14 +25,14 @@ export class DataloaderService {
 
   private _createCategoriesLoader() {
     return new DataLoader<
-      { _id: Product['_id']; categories: Category['_id'][] },
+      { id: Product['id']; categories: Category['id'][] },
       Category[]
     >(async (products) => {
       const productsToIds: {
-        _id: Product['_id'];
-        categories: Category['_id'][];
+        id: Product['id'];
+        categories: Category['id'][];
       }[] = products.map((product) => ({
-        _id: product._id,
+        id: product.id,
         categories: product.categories,
       }));
 
@@ -41,13 +41,13 @@ export class DataloaderService {
   }
 
   private _createProductsLoader() {
-    return new DataLoader<Product['_id'], Product>(async (productIds) => {
+    return new DataLoader<Product['id'], Product>(async (productIds) => {
       const products = await this.productsService.findByIds(
         productIds as string[],
       );
 
       const productMap = new Map(
-        products.map((product) => [product._id.toString(), product]),
+        products.map((product) => [product.id.toString(), product]),
       );
       return productIds.map((id) => productMap.get(id.toString()));
     });

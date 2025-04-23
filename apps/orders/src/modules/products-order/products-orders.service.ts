@@ -15,7 +15,7 @@ export class ProductsOrdersService {
   ) {}
 
   private async getProductOrderById(
-    id: ProductsOrder['_id'],
+    id: ProductsOrder['id'],
   ): Promise<ProductsOrder> {
     const productOrder = await this.productsOrderModel.findById(id).exec();
 
@@ -44,12 +44,12 @@ export class ProductsOrdersService {
     return this.productsOrderModel.find().exec();
   }
 
-  findOne(id: ProductsOrder['_id']): Promise<ProductsOrder> {
+  findOne(id: ProductsOrder['id']): Promise<ProductsOrder> {
     return this.getProductOrderById(id);
   }
 
   async update(
-    id: ProductsOrder['_id'],
+    id: ProductsOrder['id'],
     updateProductsOrderInput: UpdateProductsOrderInput,
   ): Promise<ProductsOrder> {
     await this.getProductOrderById(id);
@@ -59,13 +59,13 @@ export class ProductsOrdersService {
       .exec();
   }
 
-  async remove(id: ProductsOrder['_id']): Promise<ProductsOrder> {
+  async remove(id: ProductsOrder['id']): Promise<ProductsOrder> {
     await this.getProductOrderById(id);
 
     return this.productsOrderModel.findByIdAndDelete(id).exec();
   }
   async createMany(
-    orderId: Order['_id'],
+    orderId: Order['id'],
     products: CreateProductsOrderInput[],
     session: ClientSession,
   ): Promise<ProductsOrder[]> {

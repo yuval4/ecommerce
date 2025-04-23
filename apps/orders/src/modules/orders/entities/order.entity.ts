@@ -6,7 +6,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 @Directive('@key(fields: "id")')
 export class Order {
   @Field(() => ID, { name: 'id' })
-  _id: string;
+  id: string;
 
   @Field(() => Date)
   @Prop({ type: Date, required: true })

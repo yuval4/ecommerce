@@ -13,7 +13,7 @@ export class ProductsService {
     @InjectModel(Product.name) private readonly productModel: Model<Product>,
   ) {}
 
-  private async getActiveProductById(id: Product['_id']): Promise<Product> {
+  private async getActiveProductById(id: Product['id']): Promise<Product> {
     const product = await this.productModel.findById(id).exec();
 
     if (!product) {
@@ -45,12 +45,12 @@ export class ProductsService {
     return this.productModel.find({ status: ProductStatus.ACTIVE }).exec();
   }
 
-  async findOne(id: Product['_id']): Promise<Product> {
+  async findOne(id: Product['id']): Promise<Product> {
     return this.getActiveProductById(id);
   }
 
   async update(
-    id: Product['_id'],
+    id: Product['id'],
     updateProductInput: UpdateProductInput,
   ): Promise<Product> {
     await this.getActiveProductById(id);
@@ -60,7 +60,7 @@ export class ProductsService {
     });
   }
 
-  async remove(id: Product['_id']): Promise<Product> {
+  async remove(id: Product['id']): Promise<Product> {
     await this.getActiveProductById(id);
 
     return this.productModel.findByIdAndUpdate(
@@ -70,9 +70,9 @@ export class ProductsService {
     );
   }
 
-  async findByIds(ids: Product['_id'][]): Promise<Product[]> {
+  async findByIds(ids: Product['id'][]): Promise<Product[]> {
     return this.productModel
-      .find({ _id: { $in: ids }, status: ProductStatus.ACTIVE })
+      .find({ id: { $in: ids }, status: ProductStatus.ACTIVE })
       .exec();
   }
 }

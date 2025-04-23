@@ -18,7 +18,7 @@ export class DataloaderService {
   }
 
   private _createProductsOrdersLoader() {
-    return new DataLoader<Order['_id'], ProductsOrder[]>(async (orderIds) => {
+    return new DataLoader<Order['id'], ProductsOrder[]>(async (orderIds) => {
       const productsOrders = await this.productsOrdersService.findByOrderIds(
         orderIds as string[],
       );

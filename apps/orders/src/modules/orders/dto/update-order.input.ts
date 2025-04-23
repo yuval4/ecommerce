@@ -4,5 +4,5 @@ import { CreateOrderInput } from './create-order.input';
 @InputType()
 export class UpdateOrderInput extends PartialType(CreateOrderInput) {
   @Field(() => String)
-  _id: string;
+  id: string;
 }

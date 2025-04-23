@@ -11,10 +11,10 @@ import { Product } from 'src/modules/products-order/entities/product.entity';
 export class ProductsOrder {
   @Field(() => ID, { name: 'id' })
   @Directive('@external')
-  _id: string;
+  id: string;
 
   @Prop({ type: Types.ObjectId, required: true })
-  orderId: Order['_id'];
+  orderId: Order['id'];
 
   @Prop({ type: Types.ObjectId, required: true })
   productId: Product['id'];

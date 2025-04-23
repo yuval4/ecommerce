@@ -31,9 +31,7 @@ export class OrdersResolver {
   }
 
   @Query(() => Order, { name: 'order' })
-  findOne(
-    @Args('id', { type: () => String }) id: Order['_id'],
-  ): Promise<Order> {
+  findOne(@Args('id', { type: () => String }) id: Order['id']): Promise<Order> {
     return this.ordersService.findOne(id);
   }
 
@@ -41,12 +39,12 @@ export class OrdersResolver {
   updateOrder(
     @Args('updateOrderInput') updateOrderInput: UpdateOrderInput,
   ): Promise<Order> {
-    return this.ordersService.update(updateOrderInput._id, updateOrderInput);
+    return this.ordersService.update(updateOrderInput.id, updateOrderInput);
   }
 
   @Mutation(() => Order)
   removeOrder(
-    @Args('id', { type: () => String }) id: Order['_id'],
+    @Args('id', { type: () => String }) id: Order['id'],
   ): Promise<Order> {
     return this.ordersService.remove(id);
   }
@@ -56,6 +54,6 @@ export class OrdersResolver {
     @Parent() order: Order,
     @Context() { loaders }: { loaders: IDataloaders },
   ): Promise<ProductsOrder[]> {
-    return loaders.productsOrdersLoader.load(order._id);
+    return loaders.productsOrdersLoader.load(order.id);
   }
 }

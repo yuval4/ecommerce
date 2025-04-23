@@ -13,7 +13,7 @@ export class CategoriesService {
     @InjectModel(Category.name) private categoryModel: Model<Category>,
   ) {}
 
-  private async getCategoryById(id: Category['_id']): Promise<Category> {
+  private async getCategoryById(id: Category['id']): Promise<Category> {
     const category = await this.categoryModel.findById(id).exec();
 
     if (!category) {
@@ -37,12 +37,12 @@ export class CategoriesService {
     return this.categoryModel.find().exec();
   }
 
-  async findOne(id: Category['_id']): Promise<Category> {
+  async findOne(id: Category['id']): Promise<Category> {
     return this.getCategoryById(id);
   }
 
   async update(
-    id: Category['_id'],
+    id: Category['id'],
     updateCategoryInput: UpdateCategoryInput,
   ): Promise<Category> {
     await this.getCategoryById(id);
@@ -52,7 +52,7 @@ export class CategoriesService {
       .exec();
   }
 
-  async remove(id: Category['_id']): Promise<Category> {
+  async remove(id: Category['id']): Promise<Category> {
     await this.getCategoryById(id);
 
     return this.categoryModel.findByIdAndDelete(id).exec();
@@ -60,8 +60,8 @@ export class CategoriesService {
 
   async mapProductCategories(
     productsToCategories: {
-      _id: Product['_id'];
-      categories: Category['_id'][];
+      id: Product['id'];
+      categories: Category['id'][];
     }[],
   ): Promise<Category[][]> {
     const allCategoryIds = this._extractUniqueCategoryIds(productsToCategories);
@@ -72,7 +72,7 @@ export class CategoriesService {
   }
 
   private _extractUniqueCategoryIds(
-    products: { categories: Category['_id'][] }[],
+    products: { categories: Category['id'][] }[],
   ): string[] {
     return [
       ...new Set(
@@ -82,15 +82,15 @@ export class CategoriesService {
   }
 
   private async _fetchCategoriesByIds(ids: string[]): Promise<Category[]> {
-    return this.categoryModel.find({ _id: { $in: ids } }).exec();
+    return this.categoryModel.find({ id: { $in: ids } }).exec();
   }
 
   private _mapCategoriesById(categories: Category[]): Map<string, Category> {
-    return new Map(categories.map((c) => [c._id.toString(), c]));
+    return new Map(categories.map((c) => [c.id.toString(), c]));
   }
 
   private _mapProductsToCategories(
-    products: { categories: Category['_id'][] }[],
+    products: { categories: Category['id'][] }[],
     categoryMap: Map<string, Category>,
   ): Category[][] {
     return products.map(({ categories }) =>

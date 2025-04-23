@@ -15,7 +15,7 @@ export class OrdersService {
     @InjectConnection() private readonly connection: Connection,
   ) {}
 
-  private async getOrderById(id: Order['_id']): Promise<Order> {
+  private async getOrderById(id: Order['id']): Promise<Order> {
     const order = await this.orderModel.findById(id).exec();
 
     if (!order) {
@@ -38,14 +38,14 @@ export class OrdersService {
       await createdOrder.save({ session });
 
       await this.productsOrdersService.createMany(
-        createdOrder._id,
+        createdOrder.id,
         createOrderInput.productOrders,
         session,
       );
 
       await session.commitTransaction();
 
-      return this.findOne(createdOrder._id);
+      return this.findOne(createdOrder.id);
     } catch (error) {
       await session.abortTransaction();
       throw error;
@@ -58,12 +58,12 @@ export class OrdersService {
     return this.orderModel.find().exec();
   }
 
-  async findOne(id: Order['_id']): Promise<Order> {
+  async findOne(id: Order['id']): Promise<Order> {
     return this.getOrderById(id);
   }
 
   async update(
-    id: Order['_id'],
+    id: Order['id'],
     updateOrderInput: UpdateOrderInput,
   ): Promise<Order> {
     await this.getOrderById(id);
@@ -73,7 +73,7 @@ export class OrdersService {
       .exec();
   }
 
-  async remove(id: Order['_id']): Promise<Order> {
+  async remove(id: Order['id']): Promise<Order> {
     await this.getOrderById(id);
 
     return this.orderModel.findByIdAndDelete(id).exec();

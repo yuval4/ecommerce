@@ -22,7 +22,7 @@ registerEnumType(ProductStatus, {
 @Directive('@shareable')
 export class Product {
   @Field(() => ID, { name: 'id' })
-  _id: string;
+  id: string;
 
   @Field()
   @Prop({ required: true })
@@ -62,7 +62,7 @@ export class Product {
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: Category.name }],
     default: [],
   })
-  categories: Category['_id'][];
+  categories: Category['id'][];
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);

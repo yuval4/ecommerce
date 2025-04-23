@@ -32,7 +32,7 @@ export class ProductsOrdersResolver {
 
   @Query(() => ProductsOrder, { name: 'productsOrder' })
   findOne(
-    @Args('id', { type: () => String }) id: ProductsOrder['_id'],
+    @Args('id', { type: () => String }) id: ProductsOrder['id'],
   ): Promise<ProductsOrder> {
     return this.productsOrdersService.findOne(id);
   }
@@ -43,14 +43,14 @@ export class ProductsOrdersResolver {
     updateProductsOrderInput: UpdateProductsOrderInput,
   ): Promise<ProductsOrder> {
     return this.productsOrdersService.update(
-      updateProductsOrderInput._id,
+      updateProductsOrderInput.id,
       updateProductsOrderInput,
     );
   }
 
   @Mutation(() => ProductsOrder)
   removeProductsOrder(
-    @Args('id', { type: () => String }) id: ProductsOrder['_id'],
+    @Args('id', { type: () => String }) id: ProductsOrder['id'],
   ): Promise<ProductsOrder> {
     return this.productsOrdersService.remove(id);
   }

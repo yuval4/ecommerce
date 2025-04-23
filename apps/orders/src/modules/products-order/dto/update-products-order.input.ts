@@ -6,5 +6,5 @@ export class UpdateProductsOrderInput extends PartialType(
   CreateProductsOrderInput,
 ) {
   @Field(() => String)
-  _id: string;
+  id: string;
 }

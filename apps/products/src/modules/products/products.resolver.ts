@@ -33,7 +33,7 @@ export class ProductsResolver {
 
   @Query(() => Product, { name: 'getProductById' })
   findOne(
-    @Args('id', { type: () => String }) id: Product['_id'],
+    @Args('id', { type: () => String }) id: Product['id'],
   ): Promise<Product> {
     return this.productsService.findOne(id);
   }
@@ -43,21 +43,21 @@ export class ProductsResolver {
     @Args('updateProductInput') updateProductInput: UpdateProductInput,
   ): Promise<Product> {
     return this.productsService.update(
-      updateProductInput._id,
+      updateProductInput.id,
       updateProductInput,
     );
   }
 
   @Mutation(() => Product)
   removeProduct(
-    @Args('id', { type: () => String }) id: Product['_id'],
+    @Args('id', { type: () => String }) id: Product['id'],
   ): Promise<Product> {
     return this.productsService.remove(id);
   }
 
   @ResolveReference()
   resolveReference(
-    reference: { __typename: string; id: Product['_id'] },
+    reference: { __typename: string; id: Product['id'] },
     context: { loaders: IDataloaders },
   ): Promise<Product> {
     return context.loaders.productsLoader.load(reference.id);
@@ -69,7 +69,7 @@ export class ProductsResolver {
     @Context() { loaders }: { loaders: IDataloaders },
   ) {
     return loaders.categoriesLoader.load({
-      _id: product._id,
+      id: product.id,
       categories: product.categories,
     });
   }
