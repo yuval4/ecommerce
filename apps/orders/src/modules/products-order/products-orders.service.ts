@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { GraphQLError } from 'graphql';
 import mongoose, { ClientSession, Model } from 'mongoose';
+import { Order } from '../orders/entities/order.entity';
 import { CreateProductsOrderInput } from './dto/create-products-order.input';
 import { UpdateProductsOrderInput } from './dto/update-products-order.input';
 import { ProductsOrder } from './entities/products-order.entity';
-import { Order } from '../orders/entities/order.entity';
-import { ApolloError } from 'apollo-server-express';
 
 @Injectable()
 export class ProductsOrdersService {
@@ -20,10 +20,11 @@ export class ProductsOrdersService {
     const productOrder = await this.productsOrderModel.findById(id).exec();
 
     if (!productOrder) {
-      throw new ApolloError(
-        `productOrder with ID ${id} not found`,
-        'NOT_FOUND',
-      );
+      throw new GraphQLError(`productOrder with ID ${id} not found`, {
+        extensions: {
+          code: 'NOT_FOUND',
+        },
+      });
     }
 
     return productOrder;

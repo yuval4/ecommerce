@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { GraphQLError } from 'graphql';
 import { Model } from 'mongoose';
+import { Product } from '../products/entities/product.entity';
 import { CreateCategoryInput } from './dto/create-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
 import { Category } from './entities/categories.entity';
-import { Product } from '../products/entities/product.entity';
-import { ApolloError } from 'apollo-server-express';
 
 @Injectable()
 export class CategoriesService {
@@ -17,7 +17,11 @@ export class CategoriesService {
     const category = await this.categoryModel.findById(id).exec();
 
     if (!category) {
-      throw new ApolloError(`Category with ID ${id} not found`, 'NOT_FOUND');
+      throw new GraphQLError(`Category with ID ${id} not found`, {
+        extensions: {
+          code: 'NOT_FOUND',
+        },
+      });
     }
 
     return category;

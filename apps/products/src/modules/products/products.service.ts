@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { ProductStatus } from '@repo/types';
-import { ApolloError, UserInputError } from 'apollo-server-express';
+import { GraphQLError } from 'graphql';
 import { Model } from 'mongoose';
 import { CreateProductInput } from './dto/create-product.input';
 import { UpdateProductInput } from './dto/update-product.input';
@@ -17,11 +17,19 @@ export class ProductsService {
     const product = await this.productModel.findById(id).exec();
 
     if (!product) {
-      throw new ApolloError(`Product with ID ${id} not found`, 'NOT_FOUND');
+      throw new GraphQLError(`Product with ID ${id} not found`, {
+        extensions: {
+          code: 'NOT_FOUND',
+        },
+      });
     }
 
     if (product.status === ProductStatus.DISABLED) {
-      throw new UserInputError('Product is disabled');
+      throw new GraphQLError(`Product with ID ${id} is disabled`, {
+        extensions: {
+          code: 'USER_INPUT_ERROR',
+        },
+      });
     }
 
     return product;

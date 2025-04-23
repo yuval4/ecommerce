@@ -3,7 +3,7 @@ import { ApolloGatewayDriver, ApolloGatewayDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
-import configuration from 'src/config/configuration';
+import configuration, { Config } from 'src/config/configuration';
 
 @Module({
   imports: [
@@ -20,11 +20,15 @@ import configuration from 'src/config/configuration';
             subgraphs: [
               {
                 name: 'orders',
-                url: configService.get<string>('subgraphs.orders'),
+                url: configService.get<Config['subgraphs']['orders']>(
+                  'subgraphs.orders',
+                ),
               },
               {
                 name: 'products',
-                url: configService.get<string>('subgraphs.products'),
+                url: configService.get<Config['subgraphs']['products']>(
+                  'subgraphs.products',
+                ),
               },
             ],
           }),
